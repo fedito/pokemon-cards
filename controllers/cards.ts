@@ -1,20 +1,6 @@
 import { Request, Response } from "express";
 import Card from "../models/card";
 
-// export interface Card {
-//   name: string;
-//   hp: number;
-//   isFirstEdition: boolean;
-//   expansion: string;
-//   rarity: string;
-//   price: number;
-//   img: string;
-//   creationDate: Date;
-//   createdAt?: Date;
-//   updatedAt?: Date;
-//   deletedAt?: Date;
-// }
-
 export const getCards = async (req: Request, res: Response) => {
   const { limit = 10, offset = 0, ...filteringValues } = req.query;
 

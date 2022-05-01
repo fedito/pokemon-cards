@@ -68,7 +68,6 @@ class Server {
         saveUninitialized: false,
       })
     );
-
     this.app.use(passport.initialize());
     this.app.use(passport.session());
   }

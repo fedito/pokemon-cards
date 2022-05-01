@@ -25,19 +25,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCard = exports.putCard = exports.postCard = exports.getCard = exports.getCards = void 0;
 const card_1 = __importDefault(require("../models/card"));
-// export interface Card {
-//   name: string;
-//   hp: number;
-//   isFirstEdition: boolean;
-//   expansion: string;
-//   rarity: string;
-//   price: number;
-//   img: string;
-//   creationDate: Date;
-//   createdAt?: Date;
-//   updatedAt?: Date;
-//   deletedAt?: Date;
-// }
 const getCards = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const _a = req.query, { limit = 10, offset = 0 } = _a, filteringValues = __rest(_a, ["limit", "offset"]);
     try {

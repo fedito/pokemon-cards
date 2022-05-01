@@ -15,33 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const passport_local_1 = require("passport-local");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = __importDefault(require("../models/user"));
-// const passportStrategy = (passport: PassportStatic) => {
-//   passport.use(
-//     new Strategy(async (username, password, done) => {
-//       const user = await User.findOne({ where: { username } });
-//       if (!user) {
-//         return done(null, false);
-//       }
-//       bcrypt.compare(password, user.password, (error, result) => {
-//         if (error) {
-//           throw error;
-//         }
-//         if (result === true) {
-//           return done(null, user);
-//         } else {
-//           return done(null, false);
-//         }
-//       });
-//     })
-//   );
-//   passport.serializeUser((user: any, cb) => {
-//     cb(null, user.id);
-//   });
-//   passport.deserializeUser(async (id: string, cb) => {
-//     const user = await User.findOne({ where: { id } });
-//     cb(null, user);
-//   });
-// };
 const initialize = (passport) => {
     const authenticateUser = (username, password, done) => __awaiter(void 0, void 0, void 0, function* () {
         const user = yield user_1.default.findOne({ where: { username } });

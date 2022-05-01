@@ -14,7 +14,10 @@ const router = express_1.Router();
 router.post("/login", [
     validateUser_1.checkNotAuthenticated,
     express_validator_1.body("username", "Username must be included").notEmpty().isString(),
-    express_validator_1.body("password", "Password must be al least 6 characters long").notEmpty().isString().isLength({ min: 6 }),
+    express_validator_1.body("password", "Password must be al least 6 characters long")
+        .notEmpty()
+        .isString()
+        .isLength({ min: 6 }),
     passport_1.default.authenticate("local"),
     validateFields_1.default,
 ], users_1.postLogin);

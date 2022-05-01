@@ -16,7 +16,10 @@ router.post(
   [
     checkNotAuthenticated,
     body("username", "Username must be included").notEmpty().isString(),
-    body("password", "Password must be al least 6 characters long").notEmpty().isString().isLength({min: 6}),
+    body("password", "Password must be al least 6 characters long")
+      .notEmpty()
+      .isString()
+      .isLength({ min: 6 }),
     passport.authenticate("local"),
     validateFields,
   ],

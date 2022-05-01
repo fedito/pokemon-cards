@@ -4,36 +4,6 @@ import User from "../models/user";
 import { PassportStatic, use } from "passport";
 import { Identifier } from "sequelize/types";
 
-// const passportStrategy = (passport: PassportStatic) => {
-//   passport.use(
-//     new Strategy(async (username, password, done) => {
-//       const user = await User.findOne({ where: { username } });
-//       if (!user) {
-//         return done(null, false);
-//       }
-//       bcrypt.compare(password, user.password, (error, result) => {
-//         if (error) {
-//           throw error;
-//         }
-//         if (result === true) {
-//           return done(null, user);
-//         } else {
-//           return done(null, false);
-//         }
-//       });
-//     })
-//   );
-
-//   passport.serializeUser((user: any, cb) => {
-//     cb(null, user.id);
-//   });
-
-//   passport.deserializeUser(async (id: string, cb) => {
-//     const user = await User.findOne({ where: { id } });
-//     cb(null, user);
-//   });
-// };
-
 const initialize = (passport: PassportStatic) => {
   const authenticateUser = async (
     username: string,
