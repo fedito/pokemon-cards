@@ -8,17 +8,19 @@ import {
   deleteCard,
 } from "../controllers/cards";
 import validateFields from "../middlewares/validateFields";
+import { checkAuthenticated } from "../middlewares/validateUser";
 
 const router = Router();
 
 //GET
-router.get("/", getCards);
-router.get("/:id", getCard);
+router.get("/", checkAuthenticated, getCards);
+router.get("/:id", checkAuthenticated, getCard);
 
 //POST
 router.post(
   "/",
   [
+    checkAuthenticated,
     body("name", "Name must be included").notEmpty().isString(),
     body("hp", "Hp must be multiple of 10")
       .notEmpty()
@@ -40,6 +42,7 @@ router.post(
 router.put(
   "/:id",
   [
+    checkAuthenticated,
     body("name").isString(),
     body("hp", "Hp must be multiple of 10").isNumeric().isDivisibleBy(10),
     body("isFirstEdition").isBoolean(),
@@ -53,6 +56,6 @@ router.put(
 );
 
 //DELETE
-router.delete("/:id", [], deleteCard);
+router.delete("/:id", checkAuthenticated, [], deleteCard);
 
 export default router;

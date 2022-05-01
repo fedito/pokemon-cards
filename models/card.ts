@@ -1,9 +1,33 @@
-import { DataTypes } from "sequelize";
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from "sequelize";
 import db from "../db/connection";
 
-const Card = db.define(
+interface Card
+  extends Model<InferAttributes<Card>, InferCreationAttributes<Card>> {
+  id: CreationOptional<number>;
+  name: string;
+  hp: number;
+  isFirstEdition: boolean;
+  expansion: string;
+  rarity: string;
+  price: number;
+  img: string;
+  creationDate: Date;
+  deletedAt: CreationOptional<Date | null>;
+}
+
+const Card = db.define<Card>(
   "Card",
   {
+    id: {
+      primaryKey: true,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
     name: {
       type: DataTypes.STRING,
     },

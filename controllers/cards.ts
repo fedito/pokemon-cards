@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { where } from "sequelize/types";
 import Card from "../models/card";
 
 // export interface Card {
@@ -57,6 +56,7 @@ export const getCard = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
+
     res.status(500).json({
       msg: "Unexpected error",
     });
@@ -65,22 +65,21 @@ export const getCard = async (req: Request, res: Response) => {
 
 export const postCard = async (req: Request, res: Response) => {
   const { body } = req;
-  console.log(body)
+  console.log(body);
 
   body.creationDate = Date.now();
 
-  console.log(body)
+  console.log(body);
 
   try {
     const card = await Card.create(body);
 
-    console.log(card)
+    console.log(card);
     res.status(201).json({
       msg: "Card created",
       card,
     });
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       msg: "Unexpected error",
     });
@@ -121,7 +120,7 @@ export const deleteCard = async (req: Request, res: Response) => {
 
   try {
     const card = await Card.update(
-      { deletedAt: Date.now() },
+      { deletedAt: new Date() },
       { where: { id, deletedAt: null } }
     );
 
@@ -136,6 +135,7 @@ export const deleteCard = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
+
     res.status(500).json({
       msg: "Unexpected error",
     });

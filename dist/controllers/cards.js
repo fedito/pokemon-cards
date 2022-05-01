@@ -95,7 +95,6 @@ const postCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
     }
     catch (error) {
-        console.log(error);
         res.status(500).json({
             msg: "Unexpected error",
         });
@@ -134,7 +133,7 @@ exports.putCard = putCard;
 const deleteCard = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const card = yield card_1.default.update({ deletedAt: Date.now() }, { where: { id, deletedAt: null } });
+        const card = yield card_1.default.update({ deletedAt: new Date() }, { where: { id, deletedAt: null } });
         if (card) {
             res.json({
                 msg: "Card deleted",

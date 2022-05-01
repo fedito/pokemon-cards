@@ -1,0 +1,560 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Pokemon-Cards-API",
+        "description": "A simple CRUD to create and manage pokemon cards in Node.js and TypeScript",
+        "license": {
+            "name": "Github Repository",
+            "url": "https://github.com/fedito/pokemon-cards"
+        }
+    },
+    "host": "localhost:8000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Cards",
+            "description": "API for pokemon cards"
+        },
+        {
+            "name": "Auth",
+            "description": "Authentication"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/cards": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "description": "Limit for pagination",
+                        "type": "number"
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "description": "Offset for pagination",
+                        "type": "number"
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "required": false,
+                        "description": "Name of the card",
+                        "type": "string"
+                    },
+                    {
+                        "name": "hp",
+                        "in": "query",
+                        "required": false,
+                        "description": "HP of the card",
+                        "type": "number"
+                    },
+                    {
+                        "name": "isFirstEdition",
+                        "in": "query",
+                        "required": false,
+                        "description": "If it is first edition",
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "expansion",
+                        "in": "query",
+                        "required": false,
+                        "description": "Expansion of the card",
+                        "type": "string"
+                    },
+                    {
+                        "name": "rarity",
+                        "in": "query",
+                        "required": false,
+                        "description": "Rarity of the card",
+                        "type": "string"
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "required": false,
+                        "description": "Price of the card",
+                        "type": "number"
+                    },
+                    {
+                        "name": "creationDate",
+                        "in": "query",
+                        "required": false,
+                        "description": "Date of creation of the card",
+                        "type": "string"
+                    }
+                ],
+                "tags": ["Cards"],
+                "summary": "Get all cards",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Card"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed, ",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Cards"],
+                "summary": "Create a new card",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Properties for the card to create",
+                        "schema": {
+                            "$ref": "#/definitions/CardCreation"
+                        }
+                    }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "card": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Card"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed, ",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cards/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Id of the card",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": ["Cards"],
+                "summary": "Get all cards",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "card": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Card"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed, ",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Cards"],
+                "summary": "Modify a card",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Properties for the card to modify. None of them is mandatory",
+                        "schema": {
+                            "$ref": "#/definitions/CardEdition"
+                        }
+                    }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "card": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Card"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed, ",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Cards"],
+                "summary": "Delete a card",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                },
+                                "card": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/Card"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Register user",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Register a new user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Login user",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Login information",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        },
+                        "required": true
+                    }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Logout user",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Logout",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Failed",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Card": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "hp": {
+                    "type": "number"
+                },
+                "isFirstEdition": {
+                    "type": "boolean"
+                },
+                "expansion": {
+                    "type": "string"
+                },
+                "rarity": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "creationDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        },
+        "CardCreation": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "hp": {
+                    "type": "number"
+                },
+                "isFirstEdition": {
+                    "type": "boolean"
+                },
+                "expansion": {
+                    "type": "string"
+                },
+                "rarity": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "creationDate": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        },
+        "CardEdition": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "hp": {
+                    "type": "number"
+                },
+                "isFirstEdition": {
+                    "type": "boolean"
+                },
+                "expansion": {
+                    "type": "string"
+                },
+                "rarity": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "creationDate": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
