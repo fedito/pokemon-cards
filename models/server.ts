@@ -1,4 +1,4 @@
-import express, { Application } from "express";
+import express, { Application, NextFunction } from "express";
 import cardRoutes from "../routes/card";
 import authRoutes from "../routes/user";
 import cors from "cors";
@@ -9,6 +9,9 @@ import passport from "passport";
 import swaggerUI from "swagger-ui-express";
 import initialize from "../auth/passportConfig";
 import * as swaggerDocument from "../swagger.json";
+import { Request, Response } from "express";
+import { errorHandler } from "../exceptions/errorHandler";
+
 
 class Server {
   private app: Application;
@@ -79,6 +82,9 @@ class Server {
   }
 
   listen() {
+    //error handler
+    this.app.use(errorHandler);
+
     this.app.listen(this.port, () => {
       console.log(`Server running on port: ${this.port}`);
     });

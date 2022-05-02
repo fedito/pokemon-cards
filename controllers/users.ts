@@ -1,26 +1,45 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
 import User from "../models/user";
 
-export const postLogin = async (req: Request, res: Response) => {
-  return res.json({
-    userId: req.user?.id,
-    username: req.user?.username,
-  });
-};
-
-export const postLogout = async (req: Request, res: Response) => {
-
-  req.logOut();
-  return res.json();
-};
-
-export const postRegister = async (req: Request, res: Response) => {
-  const { body } = req;
-  const username: string = body.username;
-
+export const postLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    return res.json({
+      userId: req.user?.id,
+      username: req.user?.username,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const postLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    req.logOut();
+    return res.json();
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const postRegister = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { body } = req;
+    const username: string = body.username;
+
     const userInUse = await User.findOne({ where: { username } });
 
     if (userInUse) {
@@ -39,6 +58,6 @@ export const postRegister = async (req: Request, res: Response) => {
       username: user.username,
     });
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };

@@ -8,7 +8,7 @@ export const checkAuthenticated = (
   if (req.isAuthenticated()) {
     return next();
   }
-  res.status(401).json({ msg: `User is not authenticated` });
+  res.status(401).json(`Unauthorized`);
 };
 
 export const checkNotAuthenticated = (
@@ -19,7 +19,7 @@ export const checkNotAuthenticated = (
   if (req.isAuthenticated()) {
     return res
       .status(401)
-      .json({ msg: `User: ${req.user.username} is already authenticated` });
+      .json("Already authorized");
   }
   next();
 };

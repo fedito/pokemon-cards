@@ -1,15 +1,21 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { ErrorCode } from "../exceptions/errorCode";
+import { ErrorException } from "../exceptions/errorException";
 import Card from "../models/card";
 
-export const getCards = async (req: Request, res: Response) => {
-  const { limit = 10, offset = 0, ...filteringValues } = req.query;
-
-  if (filteringValues.isFirstEdition) {
-    filteringValues.isFirstEdition =
-      filteringValues.isFirstEdition === "true" ? "1" : "0";
-  }
-
+export const getCards = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { limit = 10, offset = 0, ...filteringValues } = req.query;
+
+    if (filteringValues.isFirstEdition) {
+      filteringValues.isFirstEdition =
+        filteringValues.isFirstEdition === "true" ? "1" : "0";
+    }
+
     const [cards, totalCards] = await Promise.all([
       Card.findAll({
         offset: Number(offset),
@@ -32,43 +38,55 @@ export const getCards = async (req: Request, res: Response) => {
       cards,
     });
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };
 
-export const getCard = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
+export const getCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { id } = req.params;
+
     const card = await Card.findOne({ where: { id, deletedAt: null } });
 
     if (!card) {
-      return res.status(400).json("Invalid card id");
+      throw new ErrorException(ErrorCode.InvalidCardId);
     }
 
     return res.json(card);
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };
 
-export const postCard = async (req: Request, res: Response) => {
-  const { body } = req;
-
+export const postCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { body } = req;
+
     const card = await Card.create(body);
 
     return res.status(201).json(card);
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };
 
-export const putCard = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { body } = req;
-
+export const putCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { id } = req.params;
+    const { body } = req;
+
     const card = await Card.findOne({
       where: {
         id,
@@ -76,7 +94,7 @@ export const putCard = async (req: Request, res: Response) => {
       },
     });
     if (!card) {
-      return res.status(400).json("Invalid card id");
+      throw new ErrorException(ErrorCode.InvalidCardId);
     }
 
     card.set(body);
@@ -85,14 +103,18 @@ export const putCard = async (req: Request, res: Response) => {
 
     return res.json(card);
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };
 
-export const deleteCard = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
+export const deleteCard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    const { id } = req.params;
+
     const card = await Card.findOne({
       where: {
         id,
@@ -100,7 +122,7 @@ export const deleteCard = async (req: Request, res: Response) => {
       },
     });
     if (!card) {
-      return res.status(400).json("Invalid card id");
+      throw new ErrorException(ErrorCode.InvalidCardId);
     }
 
     card?.set({ deletedAt: new Date() });
@@ -109,6 +131,6 @@ export const deleteCard = async (req: Request, res: Response) => {
 
     return res.json(card);
   } catch (error) {
-    return res.status(500).json("Unexpected error");
+    next(error);
   }
 };
