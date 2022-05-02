@@ -24,6 +24,7 @@ const initialize = (passport: PassportStatic) => {
       return done(error);
     }
   };
+  
   passport.use(new Strategy(authenticateUser));
 
   passport.serializeUser((user: any, done) => done(null, user.id));

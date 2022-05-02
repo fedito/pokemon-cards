@@ -5,7 +5,6 @@ import cors from "cors";
 import db from "../db/connection";
 import bodyParser from "body-parser";
 import session from "express-session";
-// import cookieParser from "cookie-parser";
 import passport from "passport";
 import swaggerUI from "swagger-ui-express";
 import initialize from "../auth/passportConfig";
@@ -56,9 +55,6 @@ class Server {
     this.app.use(express.json());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-
-    //public folder
-    this.app.use(express.static("public"));
 
     //passport
     this.app.use(
