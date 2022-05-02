@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
 import User from "../models/user";
-import { ErrorCode } from "../errors/errorCode";
-import { ErrorException } from "../errors/errorException";
 
 export const postLogin = async (req: Request, res: Response) => {
   return res.json({
@@ -13,34 +11,34 @@ export const postLogin = async (req: Request, res: Response) => {
 };
 
 export const postLogout = async (req: Request, res: Response) => {
-  const user = req.user?.username;
-  req.logOut();
 
-  return res.json({
-    userId: req.user?.id,
-    username: req.user?.username,
-  });
+  req.logOut();
+  return res.json();
 };
 
 export const postRegister = async (req: Request, res: Response) => {
   const { body } = req;
   const username: string = body.username;
 
-  const userInUse = await User.findOne({ where: { username } });
+  try {
+    const userInUse = await User.findOne({ where: { username } });
 
-  if (userInUse) {
-    throw new ErrorException(ErrorCode.UsernameUnavailable);
+    if (userInUse) {
+      return res.status(400).json("Username already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(body.password, 10);
+
+    const user = await User.create({
+      username,
+      password: hashedPassword,
+    });
+
+    return res.json({
+      userId: user.id,
+      username: user.username,
+    });
+  } catch (error) {
+    return res.status(500).json("Unexpected error");
   }
-
-  const hashedPassword = await bcrypt.hash(body.password, 10);
-
-  const user = await User.create({
-    username,
-    password: hashedPassword,
-  });
-
-  return res.json({
-    userId: user.id,
-    username: user.username,
-  });
 };

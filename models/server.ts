@@ -9,9 +9,6 @@ import passport from "passport";
 import swaggerUI from "swagger-ui-express";
 import initialize from "../auth/passportConfig";
 import * as swaggerDocument from "../swagger.json";
-import { errorHandler } from "../errors/errorHandler";
-import { ErrorCode } from "../errors/errorCode";
-import { ErrorException } from "../errors/errorException";
 
 class Server {
   private app: Application;
@@ -35,8 +32,6 @@ class Server {
     this.initializePassport();
 
     this.routes();
-
-    this.errorHandler()
   }
 
   async dbConnection() {
@@ -44,7 +39,7 @@ class Server {
       await db.authenticate();
       console.log("DB Online");
     } catch (error) {
-      throw new ErrorException(ErrorCode.UsernameUnavailable);
+      throw new Error();
     }
   }
 
@@ -81,10 +76,6 @@ class Server {
       swaggerUI.serve,
       swaggerUI.setup(swaggerDocument)
     );
-  }
-
-  errorHandler() {
-    this.app.use(errorHandler)
   }
 
   listen() {

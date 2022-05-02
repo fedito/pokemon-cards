@@ -98,11 +98,20 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Card"
+              "type": "object",
+              "properties": {
+                "totalCards": {
+                  "type": "number"
+                },
+                "cards": {
+                  "type": "object",
+                  "$ref": "#/definitions/Card"
+                }
+              }
             }
           },
           "500": {
-            "description": "Failed, ",
+            "description": "Failed",
             "schema": {
               "type": "object",
               "properties": {
@@ -134,9 +143,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
-                  "type": "string"
-                },
                 "card": {
                   "type": "object",
                   "$ref": "#/definitions/Card"
@@ -145,7 +151,7 @@
             }
           },
           "500": {
-            "description": "Failed, ",
+            "description": "Failed",
             "schema": {
               "type": "object",
               "properties": {
@@ -177,9 +183,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
-                  "type": "string"
-                },
                 "card": {
                   "type": "object",
                   "$ref": "#/definitions/Card"
@@ -221,7 +224,8 @@
             "description": "Properties for the card to modify. None of them is mandatory",
             "schema": {
               "$ref": "#/definitions/CardEdition"
-            }
+            },
+            "required": false
           }
         ],
         "produces": ["application/json"],
@@ -231,9 +235,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
-                  "type": "string"
-                },
                 "card": {
                   "type": "object",
                   "$ref": "#/definitions/Card"
@@ -253,7 +254,7 @@
             }
           },
           "500": {
-            "description": "Failed, ",
+            "description": "Failed",
             "schema": {
               "type": "object",
               "properties": {
@@ -274,9 +275,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
-                  "type": "string"
-                },
                 "card": {
                   "type": "object",
                   "$ref": "#/definitions/Card"
@@ -331,7 +329,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
+                "userId": {
+                  "type": "number"
+                },
+                "username": {
                   "type": "string"
                 }
               }
@@ -384,7 +385,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "msg": {
+                "userId": {
+                  "type": "number"
+                },
+                "username": {
                   "type": "string"
                 }
               }
@@ -408,28 +412,11 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Logout user",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Logout",
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
         "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "msg": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "OK"
+            
           },
           "500": {
             "description": "Failed",
@@ -519,7 +506,8 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "required": ["fals"]
         },
         "hp": {
           "type": "number"

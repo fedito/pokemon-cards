@@ -27,6 +27,7 @@ const Card = db.define<Card>(
     id: {
       primaryKey: true,
       type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING,
